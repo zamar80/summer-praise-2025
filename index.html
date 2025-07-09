@@ -12,7 +12,7 @@
         #next-song-btn:hover { background-color: #f0f0f0; }
         .container { display: flex; flex: 1; flex-direction: column; overflow: hidden; }
         .video-container { position: relative; padding-bottom: 56.25%; height: 0; overflow: hidden; flex-shrink: 0; background-color: #000; }
-        .video-container iframe { position: absolute; top: 0; left: 0; width: 100%; height: 100%; }
+        .video-container #video-player { position: absolute; top: 0; left: 0; width: 100%; height: 100%; }
         .playlist-container { flex: 1; overflow-y: auto; }
         .playlist { list-style: none; padding: 0; margin: 0; }
         .playlist li { padding: 16px 20px; border-bottom: 1px solid #ddd; cursor: pointer; transition: background-color 0.2s; font-size: 1.1em; display: flex; align-items: center;}
@@ -38,7 +38,7 @@
 
     <div class="container">
         <div class="video-container">
-            <iframe id="video-player" src="" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+            <div id="video-player"></div>
         </div>
         <div class="playlist-container">
             <ul id="playlist" class="playlist">
@@ -55,46 +55,74 @@
             { title: '주 발 앞에 나 엎드려', videoId: 'rtC7Y9xChN8' },
             { title: '하나님의 부르심 (주제곡)', videoId: 'VEB1yvUtaAg' },
             { title: '여호와께 돌아가자', videoId: 'SPvMxO-Fzc0' },
-            { title: '주 은혜임을', videoId: 'IXKSxNdWdxE' }, // 마커스워십 공식 영상으로 교체
+            { title: '주 은혜임을', videoId: 'bH_9p0L541M' }, // 마커스워십 공식 영상
             { title: '영접송', videoId: 'W1uussHIX9o' }
         ];
 
         const playlistElement = document.getElementById('playlist');
-        const player = document.getElementById('video-player');
         const nextButton = document.getElementById('next-song-btn');
         let listItems = [];
+        let player;
         let currentSongIndex = 0;
 
-        function playSong(index) {
-            if (index >= songs.length) {
-                index = 0;
-            }
-            if (index < 0) {
-                index = songs.length - 1;
-            }
-            currentSongIndex = index;
-            const videoId = songs[currentSongIndex].videoId;
-            // 유튜브 표준 주소 형식으로 수정
-            player.src = `https://www.youtube.com/embed/${videoId}?autoplay=1&rel=0`;
-            
-            listItems.forEach((item, itemIndex) => {
-                item.classList.toggle('active', itemIndex === currentSongIndex);
+        // 1. 유튜브 API 스크립트를 불러옵니다.
+        const tag = document.createElement('script');
+        tag.src = "https://www.google.com/search?q=https://www.youtube.com/playlist%3Flist%3DPLp-hsDFmP5B9HkE2cM-37qBWMvJzMh82B";
+        const firstScriptTag = document.getElementsByTagName('script')[0];
+        firstScriptTag.parentNode.insertBefore(tag, firstScriptTag);
+
+        // 2. API가 준비되면 이 함수가 자동으로 실행됩니다.
+        function onYouTubeIframeAPIReady() {
+            player = new YT.Player('video-player', {
+                height: '100%',
+                width: '100%',
+                videoId: songs[0].videoId,
+                playerVars: { 'autoplay': 1, 'rel': 0 },
+                events: { 'onReady': onPlayerReady }
             });
         }
 
-        songs.forEach((song, index) => {
-            const listItem = document.createElement('li');
-            listItem.innerHTML = `<span class="track-number">${index + 1}</span> <span>${song.title}</span>`;
-            listItem.onclick = () => playSong(index);
-            playlistElement.appendChild(listItem);
-            listItems.push(listItem);
-        });
+        // 3. 플레이어가 준비되면 재생목록을 만듭니다.
+        function onPlayerReady(event) {
+            buildPlaylist();
+            updateActiveListItem();
+            // 다음 곡 버튼 기능 추가
+            nextButton.onclick = () => {
+                playNextSong();
+            };
+        }
         
-        nextButton.onclick = () => {
-            playSong(currentSongIndex + 1);
-        };
+        // 재생 목록을 웹페이지에 만드는 함수
+        function buildPlaylist() {
+            songs.forEach((song, index) => {
+                const listItem = document.createElement('li');
+                listItem.innerHTML = `<span class="track-number">${index + 1}</span> <span>${song.title}</span>`;
+                listItem.onclick = () => {
+                    currentSongIndex = index;
+                    player.loadVideoById(songs[currentSongIndex].videoId);
+                    updateActiveListItem();
+                };
+                playlistElement.appendChild(listItem);
+                listItems.push(listItem);
+            });
+        }
 
-        playSong(0);
+        // '다음 곡' 버튼을 누르거나, 한 곡이 끝났을 때 다음 곡을 재생하는 함수
+        function playNextSong() {
+            currentSongIndex++;
+            if (currentSongIndex >= songs.length) {
+                currentSongIndex = 0; // 마지막 곡이면 처음으로
+            }
+            player.loadVideoById(songs[currentSongIndex].videoId);
+            updateActiveListItem();
+        }
+
+        // 현재 재생 중인 곡을 목록에서 강조 표시하는 함수
+        function updateActiveListItem() {
+            listItems.forEach((item, index) => {
+                item.classList.toggle('active', index === currentSongIndex);
+            });
+        }
     </script>
 
 </body>
