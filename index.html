@@ -74,7 +74,8 @@
             }
             currentSongIndex = index;
             const videoId = songs[currentSongIndex].videoId;
-            player.src = `https://www.youtube.com/embed/${videoId}?autoplay=1&rel=0`;
+            // '$' 기호를 추가하여 오타를 수정한 부분입니다.
+            player.src = `https://www.youtube.com/embed/$${videoId}?autoplay=1&rel=0`;
             
             listItems.forEach((item, itemIndex) => {
                 item.classList.toggle('active', itemIndex === currentSongIndex);
