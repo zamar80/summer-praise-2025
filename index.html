@@ -65,25 +65,99 @@
         let player;
         let currentSongIndex = 0;
 
-        // YouTube API 스크립트 로드 (수정됨)
-        const tag = document.createElement('script');
-        tag.src = "https://www.youtube.com/iframe_api";
-        const firstScriptTag = document.getElementsByTagName('script')[0];
-        firstScriptTag.parentNode.insertBefore(tag, firstScriptTag);
+        // YouTube API 로드 상태 확인
+        function loadYouTubeAPI() {
+            if (window.YT && window.YT.Player) {
+                initializePlayer();
+            } else {
+                // YouTube API 스크립트 로드
+                const tag = document.createElement('script');
+                tag.src = "https://www.youtube.com/iframe_api";
+                tag.onload = function() {
+                    // API 로드 완료 후 콜백 등록
+                    window.onYouTubeIframeAPIReady = initializePlayer;
+                };
+                document.head.appendChild(tag);
+            }
+        }
 
         // YouTube API 콜백 함수를 전역으로 등록 (추가됨)
-        window.onYouTubeIframeAPIReady = function() {
-            player = new YT.Player('video-player', {
-                height: '100%',
-                width: '100%',
-                videoId: songs[0].videoId,
-                playerVars: { 'autoplay': 1, 'rel': 0, 'playsinline': 1 },
-                events: {
-                    'onReady': onPlayerReady,
-                    'onStateChange': onPlayerStateChange
-                }
+        window.onYouTubeIframeAPIReady = initializePlayer;
+
+        function initializePlayer() {
+            try {
+                player = new YT.Player('video-player', {
+                    height: '100%',
+                    width: '100%',
+                    videoId: songs[0].videoId,
+                    playerVars: { 
+                        'autoplay': 1, 
+                        'rel': 0, 
+                        'playsinline': 1,
+                        'origin': window.location.origin,
+                        'enablejsapi': 1
+                    },
+                    events: {
+                        'onReady': onPlayerReady,
+                        'onStateChange': onPlayerStateChange,
+                        'onError': onPlayerError
+                    }
+                });
+            } catch (error) {
+                console.error('YouTube 플레이어 초기화 오류:', error);
+                // 대체 방법: 일반 iframe으로 폴백
+                fallbackToIframe();
+            }
+        }
+
+        function onPlayerError(event) {
+            console.error('YouTube 플레이어 오류:', event.data);
+            // 오류 발생 시 다음 곡으로 이동
+            playNextSong();
+        }
+
+        function fallbackToIframe() {
+            const videoContainer = document.getElementById('video-player');
+            videoContainer.innerHTML = `
+                <iframe 
+                    width="100%" 
+                    height="100%" 
+                    src="https://www.youtube.com/embed/${songs[currentSongIndex].videoId}?autoplay=1&rel=0&origin=${encodeURIComponent(window.location.origin)}" 
+                    frameborder="0" 
+                    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" 
+                    allowfullscreen>
+                </iframe>
+            `;
+            // 플레이리스트는 여전히 작동하도록 UI 구성
+            buildPlaylistUI();
+            setupFallbackPlaylist();
+        }
+
+        function setupFallbackPlaylist() {
+            const listItems = document.querySelectorAll('#playlist li');
+            listItems.forEach((item, index) => {
+                item.addEventListener('click', () => {
+                    currentSongIndex = index;
+                    const videoContainer = document.getElementById('video-player');
+                    videoContainer.innerHTML = `
+                        <iframe 
+                            width="100%" 
+                            height="100%" 
+                            src="https://www.youtube.com/embed/${songs[currentSongIndex].videoId}?autoplay=1&rel=0&origin=${encodeURIComponent(window.location.origin)}" 
+                            frameborder="0" 
+                            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" 
+                            allowfullscreen>
+                        </iframe>
+                    `;
+                    updateActiveListItem();
+                });
             });
-        };
+        }
+
+        // 페이지 로드 시 YouTube API 초기화
+        document.addEventListener('DOMContentLoaded', function() {
+            loadYouTubeAPI();
+        });
 
         function onPlayerReady(event) {
             buildPlaylistUI();
@@ -111,7 +185,22 @@
 
         function playSongByIndex(index) {
             currentSongIndex = index;
-            player.loadVideoById(songs[currentSongIndex].videoId);
+            if (player && player.loadVideoById) {
+                player.loadVideoById(songs[currentSongIndex].videoId);
+            } else {
+                // 대체 방법: iframe 직접 업데이트
+                const videoContainer = document.getElementById('video-player');
+                videoContainer.innerHTML = `
+                    <iframe 
+                        width="100%" 
+                        height="100%" 
+                        src="https://www.youtube.com/embed/${songs[currentSongIndex].videoId}?autoplay=1&rel=0&origin=${encodeURIComponent(window.location.origin)}" 
+                        frameborder="0" 
+                        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" 
+                        allowfullscreen>
+                    </iframe>
+                `;
+            }
             updateActiveListItem();
         }
 
