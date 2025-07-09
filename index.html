@@ -55,7 +55,7 @@
             { title: '주 발 앞에 나 엎드려', videoId: 'rtC7Y9xChN8' },
             { title: '하나님의 부르심 (주제곡)', videoId: 'VEB1yvUtaAg' },
             { title: '여호와께 돌아가자', videoId: 'SPvMxO-Fzc0' },
-            { title: '주 은혜임을', videoId: 'n_52j5m3t8w' }, // 마커스 (영상 교체)
+            { title: '주 은혜임을', videoId: 'bH_9p0L541M' }, // 마커스워십 공식 영상으로 교체
             { title: '영접송', videoId: 'W1uussHIX9o' }
         ];
 
@@ -74,8 +74,8 @@
             }
             currentSongIndex = index;
             const videoId = songs[currentSongIndex].videoId;
-            // '$' 기호를 추가하여 오타를 수정한 부분입니다.
-            player.src = `https://www.youtube.com/embed/$${videoId}?autoplay=1&rel=0`;
+            // 유튜브 표준 주소 형식으로 수정
+            player.src = `https://www.youtube.com/embed/${videoId}?autoplay=1&rel=0`;
             
             listItems.forEach((item, itemIndex) => {
                 item.classList.toggle('active', itemIndex === currentSongIndex);
