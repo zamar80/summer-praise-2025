@@ -55,7 +55,7 @@
             { title: '주 발 앞에 나 엎드려', videoId: 'rtC7Y9xChN8' },
             { title: '하나님의 부르심 (주제곡)', videoId: 'VEB1yvUtaAg' },
             { title: '여호와께 돌아가자', videoId: 'SPvMxO-Fzc0' },
-            { title: '주 은혜임을', videoId: '1xuc3qf5d3A' },
+            { title: '주 은혜임을', videoId: 'n_52j5m3t8w' }, // 마커스 (영상 교체)
             { title: '영접송', videoId: 'W1uussHIX9o' }
         ];
 
@@ -65,40 +65,34 @@
         let listItems = [];
         let currentSongIndex = 0;
 
-        // 1. 노래를 재생하는 핵심 함수
         function playSong(index) {
-            // index가 범위를 벗어나지 않게 처리
             if (index >= songs.length) {
-                index = 0; // 마지막 곡 다음은 처음으로
+                index = 0;
             }
             if (index < 0) {
-                index = songs.length - 1; // 처음 곡 이전은 마지막으로
+                index = songs.length - 1;
             }
             currentSongIndex = index;
             const videoId = songs[currentSongIndex].videoId;
             player.src = `https://www.youtube.com/embed/${videoId}?autoplay=1&rel=0`;
             
-            // 재생목록에 활성화 표시
             listItems.forEach((item, itemIndex) => {
                 item.classList.toggle('active', itemIndex === currentSongIndex);
             });
         }
 
-        // 2. 처음 접속 시, 재생목록을 화면에 그림
         songs.forEach((song, index) => {
             const listItem = document.createElement('li');
             listItem.innerHTML = `<span class="track-number">${index + 1}</span> <span>${song.title}</span>`;
-            listItem.onclick = () => playSong(index); // 목록 클릭 시 해당 곡 재생
+            listItem.onclick = () => playSong(index);
             playlistElement.appendChild(listItem);
             listItems.push(listItem);
         });
         
-        // 3. '다음 곡' 버튼 클릭 시 기능
         nextButton.onclick = () => {
             playSong(currentSongIndex + 1);
         };
 
-        // 4. 페이지가 처음 열릴 때 첫 번째 곡을 재생
         playSong(0);
     </script>
 
