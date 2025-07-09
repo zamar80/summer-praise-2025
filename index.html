@@ -55,7 +55,7 @@
             { title: '주 발 앞에 나 엎드려', videoId: 'rtC7Y9xChN8' },
             { title: '하나님의 부르심 (주제곡)', videoId: 'VEB1yvUtaAg' },
             { title: '여호와께 돌아가자', videoId: 'SPvMxO-Fzc0' },
-            { title: '주 은혜임을', videoId: 'IXKSxNdWdxE' }, // 마커스워십 공식 영상
+            { title: '주 은혜임을', videoId: 'IXKSxNdWdxE' },
             { title: '영접송', videoId: 'W1uussHIX9o' }
         ];
 
@@ -65,59 +65,59 @@
         let player;
         let currentSongIndex = 0;
 
-        // 1. 유튜브 API 스크립트를 불러옵니다.
         const tag = document.createElement('script');
         tag.src = "https://www.google.com/search?q=https://www.youtube.com/playlist%3Flist%3DPLp-hsDFmP5B9HkE2cM-37qBWMvJzMh82B";
         const firstScriptTag = document.getElementsByTagName('script')[0];
         firstScriptTag.parentNode.insertBefore(tag, firstScriptTag);
 
-        // 2. API가 준비되면 이 함수가 자동으로 실행됩니다.
         function onYouTubeIframeAPIReady() {
             player = new YT.Player('video-player', {
                 height: '100%',
                 width: '100%',
                 videoId: songs[0].videoId,
-                playerVars: { 'autoplay': 1, 'rel': 0 },
-                events: { 'onReady': onPlayerReady }
+                playerVars: { 'autoplay': 1, 'rel': 0, 'playsinline': 1 },
+                events: {
+                    'onReady': onPlayerReady,
+                    'onStateChange': onPlayerStateChange
+                }
             });
         }
 
-        // 3. 플레이어가 준비되면 재생목록을 만듭니다.
         function onPlayerReady(event) {
-            buildPlaylist();
+            buildPlaylistUI();
             updateActiveListItem();
-            // 다음 곡 버튼 기능 추가
-            nextButton.onclick = () => {
-                playNextSong();
-            };
+            nextButton.onclick = playNextSong;
         }
-        
-        // 재생 목록을 웹페이지에 만드는 함수
-        function buildPlaylist() {
+
+        function onPlayerStateChange(event) {
+            if (event.data === YT.PlayerState.ENDED) {
+                playNextSong();
+            }
+        }
+
+        function buildPlaylistUI() {
             songs.forEach((song, index) => {
                 const listItem = document.createElement('li');
                 listItem.innerHTML = `<span class="track-number">${index + 1}</span> <span>${song.title}</span>`;
-                listItem.onclick = () => {
-                    currentSongIndex = index;
-                    player.loadVideoById(songs[currentSongIndex].videoId);
-                    updateActiveListItem();
-                };
+                listItem.addEventListener('click', () => {
+                    playSongByIndex(index);
+                });
                 playlistElement.appendChild(listItem);
                 listItems.push(listItem);
             });
         }
 
-        // '다음 곡' 버튼을 누르거나, 한 곡이 끝났을 때 다음 곡을 재생하는 함수
-        function playNextSong() {
-            currentSongIndex++;
-            if (currentSongIndex >= songs.length) {
-                currentSongIndex = 0; // 마지막 곡이면 처음으로
-            }
+        function playSongByIndex(index) {
+            currentSongIndex = index;
             player.loadVideoById(songs[currentSongIndex].videoId);
             updateActiveListItem();
         }
 
-        // 현재 재생 중인 곡을 목록에서 강조 표시하는 함수
+        function playNextSong() {
+            currentSongIndex = (currentSongIndex + 1) % songs.length;
+            playSongByIndex(currentSongIndex);
+        }
+
         function updateActiveListItem() {
             listItems.forEach((item, index) => {
                 item.classList.toggle('active', index === currentSongIndex);
