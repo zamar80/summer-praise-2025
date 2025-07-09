@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>군산남성교회 중고등부 2025 여름수련회 찬양</title>
+    <style>
+        body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif; margin: 0; padding: 0; display: flex; flex-direction: column; height: 100vh; background-color: #f4f4f4; }
+        header { background-color: #007bff; color: white; text-align: center; padding: 12px; box-shadow: 0 2px 4px rgba(0,0,0,0.1); display: flex; justify-content: space-between; align-items: center; }
+        h1 { margin: 0; font-size: 1.2em; }
+        #next-song-btn { background-color: #fff; color: #007bff; border: 1px solid #007bff; border-radius: 5px; padding: 8px 15px; font-weight: bold; cursor: pointer; transition: background-color 0.2s; }
+        #next-song-btn:hover { background-color: #f0f0f0; }
+        .container { display: flex; flex: 1; flex-direction: column; overflow: hidden; }
+        .video-container { position: relative; padding-bottom: 56.25%; height: 0; overflow: hidden; flex-shrink: 0; background-color: #000; }
+        .video-container iframe { position: absolute; top: 0; left: 0; width: 100%; height: 100%; }
+        .playlist-container { flex: 1; overflow-y: auto; }
+        .playlist { list-style: none; padding: 0; margin: 0; }
+        .playlist li { padding: 16px 20px; border-bottom: 1px solid #ddd; cursor: pointer; transition: background-color 0.2s; font-size: 1.1em; display: flex; align-items: center;}
+        .playlist li:hover { background-color: #e9e9e9; }
+        .playlist li.active { background-color: #007bff; color: white; font-weight: bold; }
+        .playlist li .track-number { color: #888; font-size: 0.9em; width: 2em; text-align: right; margin-right: 15px; }
+        .playlist li.active .track-number { color: white; }
+
+        @media (min-width: 768px) {
+            h1 { font-size: 1.5em; }
+            .container { flex-direction: row; }
+            .video-container { width: 70%; padding-bottom: 0; height: auto; }
+            .playlist-container { width: 30%; border-left: 1px solid #ddd; }
+        }
+    </style>
+</head>
+<body>
+
+    <header>
+        <h1>군산남성교회 중고등부 찬양</h1>
+        <button id="next-song-btn">다음 곡 ▶</button>
+    </header>
+
+    <div class="container">
+        <div class="video-container">
+            <iframe id="video-player" src="" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+        </div>
+        <div class="playlist-container">
+            <ul id="playlist" class="playlist">
+            </ul>
+        </div>
+    </div>
+
+    <script>
+        const songs = [
+            { title: '주를 찾는 모든 자들이', videoId: 'Fi2waeWY18g' },
+            { title: '주님의 임재 앞에서', videoId: 'RJFBiob8vp8' },
+            { title: '멈출 수 없네', videoId: 'Qnz9ipvpsNs' },
+            { title: '예수 나의 첫사랑 되시네', videoId: 'WyDoHLNz2no' },
+            { title: '주 발 앞에 나 엎드려', videoId: 'rtC7Y9xChN8' },
+            { title: '하나님의 부르심 (주제곡)', videoId: 'VEB1yvUtaAg' },
+            { title: '여호와께 돌아가자', videoId: 'SPvMxO-Fzc0' },
+            { title: '주 은혜임을', videoId: '1xuc3qf5d3A' },
+            { title: '영접송', videoId: 'W1uussHIX9o' }
+        ];
+
+        const playlistElement = document.getElementById('playlist');
+        const player = document.getElementById('video-player');
+        const nextButton = document.getElementById('next-song-btn');
+        let listItems = [];
+        let currentSongIndex = 0;
+
+        // 1. 노래를 재생하는 핵심 함수
+        function playSong(index) {
+            // index가 범위를 벗어나지 않게 처리
+            if (index >= songs.length) {
+                index = 0; // 마지막 곡 다음은 처음으로
+            }
+            if (index < 0) {
+                index = songs.length - 1; // 처음 곡 이전은 마지막으로
+            }
+            currentSongIndex = index;
+            const videoId = songs[currentSongIndex].videoId;
+            player.src = `https://www.youtube.com/embed/${videoId}?autoplay=1&rel=0`;
+            
+            // 재생목록에 활성화 표시
+            listItems.forEach((item, itemIndex) => {
+                item.classList.toggle('active', itemIndex === currentSongIndex);
+            });
+        }
+
+        // 2. 처음 접속 시, 재생목록을 화면에 그림
+        songs.forEach((song, index) => {
+            const listItem = document.createElement('li');
+            listItem.innerHTML = `<span class="track-number">${index + 1}</span> <span>${song.title}</span>`;
+            listItem.onclick = () => playSong(index); // 목록 클릭 시 해당 곡 재생
+            playlistElement.appendChild(listItem);
+            listItems.push(listItem);
+        });
+        
+        // 3. '다음 곡' 버튼 클릭 시 기능
+        nextButton.onclick = () => {
+            playSong(currentSongIndex + 1);
+        };
+
+        // 4. 페이지가 처음 열릴 때 첫 번째 곡을 재생
+        playSong(0);
+    </script>
+
+</body>
+</html>
