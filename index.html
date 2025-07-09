@@ -55,7 +55,7 @@
             { title: '주 발 앞에 나 엎드려', videoId: 'rtC7Y9xChN8' },
             { title: '하나님의 부르심 (주제곡)', videoId: 'VEB1yvUtaAg' },
             { title: '여호와께 돌아가자', videoId: 'SPvMxO-Fzc0' },
-            { title: '주 은혜임을', videoId: 'IXKSxNdWdxE' },
+            { title: '주 은혜임을', videoId: 'bH_9p0L541M' },
             { title: '영접송', videoId: 'W1uussHIX9o' }
         ];
 
@@ -65,12 +65,14 @@
         let player;
         let currentSongIndex = 0;
 
+        // YouTube API 스크립트 로드 (수정됨)
         const tag = document.createElement('script');
-        tag.src = "https://www.google.com/search?q=https://www.youtube.com/playlist%3Flist%3DPLp-hsDFmP5B9HkE2cM-37qBWMvJzMh82B";
+        tag.src = "https://www.youtube.com/iframe_api";
         const firstScriptTag = document.getElementsByTagName('script')[0];
         firstScriptTag.parentNode.insertBefore(tag, firstScriptTag);
 
-        function onYouTubeIframeAPIReady() {
+        // YouTube API 콜백 함수를 전역으로 등록 (추가됨)
+        window.onYouTubeIframeAPIReady = function() {
             player = new YT.Player('video-player', {
                 height: '100%',
                 width: '100%',
@@ -81,7 +83,7 @@
                     'onStateChange': onPlayerStateChange
                 }
             });
-        }
+        };
 
         function onPlayerReady(event) {
             buildPlaylistUI();
