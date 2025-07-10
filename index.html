@@ -5,21 +5,113 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>군산남성교회 중고등부 2025 여름수련회 찬양</title>
     <style>
-        body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif; margin: 0; padding: 0; display: flex; flex-direction: column; height: 100vh; background-color: #f4f4f4; }
-        header { background-color: #007bff; color: white; text-align: center; padding: 12px; box-shadow: 0 2px 4px rgba(0,0,0,0.1); display: flex; justify-content: space-between; align-items: center; }
-        h1 { margin: 0; font-size: 1.2em; }
-        #next-song-btn { background-color: #fff; color: #007bff; border: 1px solid #007bff; border-radius: 5px; padding: 8px 15px; font-weight: bold; cursor: pointer; transition: background-color 0.2s; }
-        #next-song-btn:hover { background-color: #f0f0f0; }
-        .container { display: flex; flex: 1; flex-direction: column; overflow: hidden; }
-        .video-container { position: relative; padding-bottom: 56.25%; height: 0; overflow: hidden; flex-shrink: 0; background-color: #000; }
-        .video-container #video-player { position: absolute; top: 0; left: 0; width: 100%; height: 100%; }
-        .playlist-container { flex: 1; overflow-y: auto; }
-        .playlist { list-style: none; padding: 0; margin: 0; }
-        .playlist li { padding: 16px 20px; border-bottom: 1px solid #ddd; cursor: pointer; transition: background-color 0.2s; font-size: 1.1em; display: flex; align-items: center;}
-        .playlist li:hover { background-color: #e9e9e9; }
-        .playlist li.active { background-color: #007bff; color: white; font-weight: bold; }
-        .playlist li .track-number { color: #888; font-size: 0.9em; width: 2em; text-align: right; margin-right: 15px; }
-        .playlist li.active .track-number { color: white; }
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            flex-direction: column;
+            height: 100vh;
+            background-color: #f4f4f4;
+        }
+
+        header {
+            background-color: #007bff;
+            color: white;
+            text-align: center;
+            padding: 12px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        h1 {
+            margin: 0;
+            font-size: 1.2em;
+        }
+
+        #next-song-btn {
+            background-color: #fff;
+            color: #007bff;
+            border: 1px solid #007bff;
+            border-radius: 5px;
+            padding: 8px 15px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: background-color 0.2s;
+        }
+
+        #next-song-btn:hover {
+            background-color: #f0f0f0;
+        }
+
+        .container {
+            display: flex;
+            flex: 1;
+            flex-direction: column;
+            overflow: hidden;
+        }
+
+        .video-container {
+            position: relative;
+            padding-bottom: 56.25%;
+            height: 0;
+            overflow: hidden;
+            flex-shrink: 0;
+            background-color: #000;
+        }
+
+        .video-container #video-player {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+        }
+
+        .playlist-container {
+            flex: 1;
+            overflow-y: auto;
+        }
+
+        .playlist {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+        }
+
+        .playlist li {
+            padding: 16px 20px;
+            border-bottom: 1px solid #ddd;
+            cursor: pointer;
+            transition: background-color 0.2s;
+            font-size: 1.1em;
+            display: flex;
+            align-items: center;
+        }
+
+        .playlist li:hover {
+            background-color: #e9e9e9;
+        }
+
+        .playlist li.active {
+            background-color: #007bff;
+            color: white;
+            font-weight: bold;
+        }
+
+        .playlist li .track-number {
+            color: #888;
+            font-size: 0.9em;
+            width: 2em;
+            text-align: right;
+            margin-right: 15px;
+        }
+
+        .playlist li.active .track-number {
+            color: white;
+        }
 
         @media (min-width: 768px) {
             h1 { font-size: 1.5em; }
@@ -35,6 +127,22 @@
         <h1>군산남성교회 중고등부 찬양</h1>
         <button id="next-song-btn">다음 곡 ▶</button>
     </header>
+
+    <!-- ✅ 수련회 시간표 보기 버튼 -->
+    <div style="text-align:center; margin: 12px;">
+        <a href="timetable.html" target="_blank" style="
+            display: inline-block;
+            background: #667eea;
+            color: white;
+            padding: 10px 18px;
+            border-radius: 8px;
+            text-decoration: none;
+            font-weight: bold;
+            font-size: 15px;
+        ">
+            ⏰ 수련회 시간표 보기
+        </a>
+    </div>
 
     <div class="container">
         <div class="video-container">
@@ -65,23 +173,19 @@
         let player;
         let currentSongIndex = 0;
 
-        // YouTube API 로드 상태 확인
         function loadYouTubeAPI() {
             if (window.YT && window.YT.Player) {
                 initializePlayer();
             } else {
-                // YouTube API 스크립트 로드
                 const tag = document.createElement('script');
                 tag.src = "https://www.youtube.com/iframe_api";
-                tag.onload = function() {
-                    // API 로드 완료 후 콜백 등록
+                tag.onload = function () {
                     window.onYouTubeIframeAPIReady = initializePlayer;
                 };
                 document.head.appendChild(tag);
             }
         }
 
-        // YouTube API 콜백 함수를 전역으로 등록 (추가됨)
         window.onYouTubeIframeAPIReady = initializePlayer;
 
         function initializePlayer() {
@@ -90,9 +194,9 @@
                     height: '100%',
                     width: '100%',
                     videoId: songs[0].videoId,
-                    playerVars: { 
-                        'autoplay': 1, 
-                        'rel': 0, 
+                    playerVars: {
+                        'autoplay': 1,
+                        'rel': 0,
                         'playsinline': 1,
                         'origin': window.location.origin,
                         'enablejsapi': 1
@@ -104,15 +208,11 @@
                     }
                 });
             } catch (error) {
-                console.error('YouTube 플레이어 초기화 오류:', error);
-                // 대체 방법: 일반 iframe으로 폴백
                 fallbackToIframe();
             }
         }
 
         function onPlayerError(event) {
-            console.error('YouTube 플레이어 오류:', event.data);
-            // 오류 발생 시 다음 곡으로 이동
             playNextSong();
         }
 
@@ -128,7 +228,6 @@
                     allowfullscreen>
                 </iframe>
             `;
-            // 플레이리스트는 여전히 작동하도록 UI 구성
             buildPlaylistUI();
             setupFallbackPlaylist();
         }
@@ -154,8 +253,7 @@
             });
         }
 
-        // 페이지 로드 시 YouTube API 초기화
-        document.addEventListener('DOMContentLoaded', function() {
+        document.addEventListener('DOMContentLoaded', function () {
             loadYouTubeAPI();
         });
 
@@ -188,7 +286,6 @@
             if (player && player.loadVideoById) {
                 player.loadVideoById(songs[currentSongIndex].videoId);
             } else {
-                // 대체 방법: iframe 직접 업데이트
                 const videoContainer = document.getElementById('video-player');
                 videoContainer.innerHTML = `
                     <iframe 
