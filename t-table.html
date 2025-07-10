@@ -60,36 +60,76 @@
             position: relative;
         }
         .meal-activity {
-            background: linear-gradient(45deg, #48bb78, #38a169);
+            background: linear-gradient(135deg, #4299e1, #2b6cb0, #1a365d);
             color: white;
             font-weight: bold;
-            border-radius: 6px;
+            border-radius: 8px;
             padding: 8px;
             margin: 2px;
+            box-shadow: 0 2px 8px rgba(66, 153, 225, 0.3);
+        }
+        .meal-activity-fade {
+            background: linear-gradient(135deg, #90cdf4, #63b3ed);
+            color: white;
+            font-weight: bold;
+            border-radius: 8px;
+            padding: 8px;
+            margin: 2px;
+            box-shadow: 0 2px 8px rgba(66, 153, 225, 0.2);
         }
         .worship-activity {
-            background: linear-gradient(45deg, #e53e3e, #c53030);
+            background: linear-gradient(135deg, #f56565, #e53e3e, #c53030);
             color: white;
             font-weight: bold;
-            border-radius: 6px;
+            border-radius: 8px;
             padding: 8px;
             margin: 2px;
+            box-shadow: 0 2px 8px rgba(245, 101, 101, 0.3);
+        }
+        .worship-activity-fade {
+            background: linear-gradient(135deg, #fc8181, #f56565);
+            color: white;
+            font-weight: bold;
+            border-radius: 8px;
+            padding: 8px;
+            margin: 2px;
+            box-shadow: 0 2px 8px rgba(245, 101, 101, 0.2);
         }
         .community-activity {
-            background: linear-gradient(45deg, #3182ce, #2b6cb0);
+            background: linear-gradient(135deg, #68d391, #48bb78, #38a169);
             color: white;
             font-weight: bold;
-            border-radius: 6px;
+            border-radius: 8px;
             padding: 8px;
             margin: 2px;
+            box-shadow: 0 2px 8px rgba(104, 211, 145, 0.3);
         }
-        .regular-activity {
-            background: linear-gradient(45deg, #718096, #4a5568);
+        .community-activity-fade {
+            background: linear-gradient(135deg, #9ae6b4, #68d391);
             color: white;
             font-weight: bold;
-            border-radius: 6px;
+            border-radius: 8px;
             padding: 8px;
             margin: 2px;
+            box-shadow: 0 2px 8px rgba(104, 211, 145, 0.2);
+        }
+        .lecture-activity {
+            background: linear-gradient(135deg, #b794f6, #9f7aea, #805ad5);
+            color: white;
+            font-weight: bold;
+            border-radius: 8px;
+            padding: 8px;
+            margin: 2px;
+            box-shadow: 0 2px 8px rgba(183, 148, 246, 0.3);
+        }
+        .lecture-activity-fade {
+            background: linear-gradient(135deg, #d6bcfa, #b794f6);
+            color: white;
+            font-weight: bold;
+            border-radius: 8px;
+            padding: 8px;
+            margin: 2px;
+            box-shadow: 0 2px 8px rgba(183, 148, 246, 0.2);
         }
         .rest-activity {
             background: #e2e8f0;
@@ -149,7 +189,7 @@
                 <tr>
                     <td class="time-cell">07:30</td>
                     <td class="activity-cell empty-cell">-</td>
-                    <td class="activity-cell"><div class="regular-activity">기상 & 성경쓰기 QT<br>(~8:00)</div></td>
+                    <td class="activity-cell"><div class="worship-activity">기상 & 성경쓰기 QT<br>(~8:00)</div></td>
                     <td class="activity-cell empty-cell">-</td>
                 </tr>
                 <tr>
@@ -167,7 +207,7 @@
                 <tr>
                     <td class="time-cell">10:00</td>
                     <td class="activity-cell"><div class="rest-activity">출발<br>(이동 90분)</div></td>
-                    <td class="activity-cell"><div class="worship-activity">2과 예배&공과<br>진행 중</div></td>
+                    <td class="activity-cell"><div class="worship-activity-fade">2과 예배&공과<br>진행 중</div></td>
                     <td class="activity-cell empty-cell">-</td>
                 </tr>
                 <tr>
@@ -184,14 +224,14 @@
                 </tr>
                 <tr>
                     <td class="time-cell">11:30</td>
-                    <td class="activity-cell"><div class="rest-activity">도착</div></td>
+                    <td class="activity-cell"><div class="worship-activity">개회예배 & 오리엔테이션<br>(~12:30)</div></td>
                     <td class="activity-cell"><div class="meal-activity">점심식사<br>(~12:30)</div></td>
                     <td class="activity-cell empty-cell">-</td>
                 </tr>
                 <tr>
                     <td class="time-cell">12:00</td>
-                    <td class="activity-cell"><div class="worship-activity">개회예배 & 오리엔테이션<br>(~12:30)</div></td>
-                    <td class="activity-cell"><div class="meal-activity">점심식사 중</div></td>
+                    <td class="activity-cell"><div class="worship-activity-fade">개회예배 & 오리엔테이션<br>진행 중</div></td>
+                    <td class="activity-cell"><div class="meal-activity-fade">점심식사 중</div></td>
                     <td class="activity-cell empty-cell">-</td>
                 </tr>
                 <tr>
@@ -202,31 +242,31 @@
                 </tr>
                 <tr>
                     <td class="time-cell">13:00</td>
-                    <td class="activity-cell"><div class="meal-activity">점심시간 중</div></td>
+                    <td class="activity-cell"><div class="meal-activity-fade">점심시간 중</div></td>
                     <td class="activity-cell"><div class="community-activity">공동체 활동2<br>(대둔산 워터파크)<br>(~16:00)</div></td>
-                    <td class="activity-cell"><div class="worship-activity">주일예배 중</div></td>
+                    <td class="activity-cell"><div class="worship-activity-fade">주일예배 중</div></td>
                 </tr>
                 <tr>
                     <td class="time-cell">13:30</td>
-                    <td class="activity-cell"><div class="regular-activity">특강 (SNS에서 승리하기)<br>(~15:00)</div></td>
-                    <td class="activity-cell"><div class="community-activity">공동체 활동2 중<br>(대둔산 워터파크)</div></td>
+                    <td class="activity-cell"><div class="lecture-activity">특강 (SNS에서 승리하기)<br>(~15:00)</div></td>
+                    <td class="activity-cell"><div class="community-activity-fade">공동체 활동2 중<br>(대둔산 워터파크)</div></td>
                     <td class="activity-cell"><div class="rest-activity">정리 및 귀가</div></td>
                 </tr>
                 <tr>
                     <td class="time-cell">14:00</td>
-                    <td class="activity-cell"><div class="regular-activity">특강 진행 중</div></td>
-                    <td class="activity-cell"><div class="community-activity">공동체 활동2 중<br>(대둔산 워터파크)</div></td>
+                    <td class="activity-cell"><div class="lecture-activity-fade">특강 진행 중</div></td>
+                    <td class="activity-cell"><div class="community-activity-fade">공동체 활동2 중<br>(대둔산 워터파크)</div></td>
                     <td class="activity-cell empty-cell">-</td>
                 </tr>
                 <tr>
                     <td class="time-cell">15:00</td>
                     <td class="activity-cell"><div class="community-activity">공동체 활동1<br>(개울가에서 놀기)<br>(~17:00)</div></td>
-                    <td class="activity-cell"><div class="community-activity">공동체 활동2 중<br>(대둔산 워터파크)</div></td>
+                    <td class="activity-cell"><div class="community-activity-fade">공동체 활동2 중<br>(대둔산 워터파크)</div></td>
                     <td class="activity-cell empty-cell">-</td>
                 </tr>
                 <tr>
                     <td class="time-cell">16:00</td>
-                    <td class="activity-cell"><div class="community-activity">공동체 활동1 중<br>(개울가에서 놀기)</div></td>
+                    <td class="activity-cell"><div class="community-activity-fade">공동체 활동1 중<br>(개울가에서 놀기)</div></td>
                     <td class="activity-cell"><div class="rest-activity">본교회로 이동<br>(90분)</div></td>
                     <td class="activity-cell empty-cell">-</td>
                 </tr>
@@ -238,14 +278,14 @@
                 </tr>
                 <tr>
                     <td class="time-cell">17:30</td>
-                    <td class="activity-cell"><div class="meal-activity">저녁식사 중<br>(바베큐파티)</div></td>
+                    <td class="activity-cell"><div class="meal-activity-fade">저녁식사 중<br>(바베큐파티)</div></td>
                     <td class="activity-cell"><div class="meal-activity">저녁식사(중식) & 휴식<br>(~19:00)</div></td>
                     <td class="activity-cell empty-cell">-</td>
                 </tr>
                 <tr>
                     <td class="time-cell">18:00</td>
-                    <td class="activity-cell"><div class="meal-activity">저녁식사 중<br>(바베큐파티)</div></td>
-                    <td class="activity-cell"><div class="meal-activity">저녁식사 중 & 휴식</div></td>
+                    <td class="activity-cell"><div class="meal-activity-fade">저녁식사 중<br>(바베큐파티)</div></td>
+                    <td class="activity-cell"><div class="meal-activity-fade">저녁식사 중 & 휴식</div></td>
                     <td class="activity-cell empty-cell">-</td>
                 </tr>
                 <tr>
@@ -257,18 +297,18 @@
                 <tr>
                     <td class="time-cell">20:00</td>
                     <td class="activity-cell"><div class="worship-activity">저녁집회<br>(~22:00)</div></td>
-                    <td class="activity-cell"><div class="worship-activity">저녁집회 중</div></td>
+                    <td class="activity-cell"><div class="worship-activity-fade">저녁집회 중</div></td>
                     <td class="activity-cell empty-cell">-</td>
                 </tr>
                 <tr>
                     <td class="time-cell">20:30</td>
-                    <td class="activity-cell"><div class="worship-activity">저녁집회 중</div></td>
+                    <td class="activity-cell"><div class="worship-activity-fade">저녁집회 중</div></td>
                     <td class="activity-cell"><div class="rest-activity">귀가</div></td>
                     <td class="activity-cell empty-cell">-</td>
                 </tr>
                 <tr>
                     <td class="time-cell">21:00</td>
-                    <td class="activity-cell"><div class="worship-activity">저녁집회 중</div></td>
+                    <td class="activity-cell"><div class="worship-activity-fade">저녁집회 중</div></td>
                     <td class="activity-cell empty-cell">-</td>
                     <td class="activity-cell empty-cell">-</td>
                 </tr>
@@ -289,7 +329,7 @@
 
         <div class="note">
             <strong>📌 참고사항:</strong> 현장의 상황에 따라 일정이 변경될 수 있습니다.<br>
-            <strong>색상 구분:</strong> 🍽️ 식사 (녹색) | ⛪ 예배/집회 (빨간색) | 👥 공동체 활동 (파란색) | 📋 기타 활동 (그레이)
+            <strong>색상 구분:</strong> 🍽️ 식사 (파란색) | ⛪ 예배/집회/QT (빨간색) | 👥 공동체 활동 (초록색) | 📚 특강 (보라색) | 📋 기타 활동 (회색)
         </div>
     </div>
 </body>
